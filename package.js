@@ -1,0 +1,28 @@
+Package.describe({
+  name: 'imagdy:mobile',
+  version: '0.0.1',
+  summary: 'Everything you need to start a mobile app project on Meteor',
+  git: 'https://github.com/iMagdy/meteor-mobile',
+  documentation: 'README.md'
+});
+
+Npm.depends({
+  shelljs: '0.5.3',
+  'colors': '1.1.2',
+  'figures': '1.4.0'
+});
+
+Package.onUse(function(api) {
+  api.versionsFrom('1.2.1');
+  api.use([ 'ecmascript', 'underscore', 'reactive-dict', 'reactive-var' ]);
+  api.addFiles('meteor.mobile.server.js', 'server');
+  api.addFiles('meteor.mobile.client.js', 'client');
+  api.export('Mobile');
+});
+
+Package.onTest(function(api) {
+  api.use('ecmascript');
+  api.use('tinytest');
+  api.use('imagdy:meteor.mobile');
+  api.addFiles('meteor.mobile-tests.js');
+});
