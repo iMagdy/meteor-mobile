@@ -19,10 +19,3 @@ Package.onUse(function(api) {
   api.addFiles('meteor.mobile.client.js', 'client');
   api.export('Mobile');
 });
-
-Package.onTest(function(api) {
-  api.use('ecmascript');
-  api.use('tinytest');
-  api.use('imagdy:meteor.mobile');
-  api.addFiles('meteor.mobile-tests.js');
-});
