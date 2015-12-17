@@ -4,6 +4,7 @@ class _Mobile {
     this.shell      = Npm.require( 'shelljs/global' );
     this.colors     = Npm.require( 'colors' );
     this.figures    = Npm.require( 'figures' );
+    this.fs         = Npm.require( 'fs' );
     this.appDir     = pwd().replace(/\/\.meteor.*$/, '');
     this.appDirs    = ls('-A', this.appDir);
   }
@@ -47,9 +48,6 @@ class _Mobile {
     };
   }
 
-  /**
-   * Check if the package was already initialized:
-   */
   isSettingsFileExists() {
     let isDirExists = _.contains(this.appDirs, '.mobile.json');
     if (! isDirExists ) {
@@ -119,8 +117,9 @@ class _Mobile {
         });
     `;
 
-    echo( sample ).to( this.appDir + '/mobile-config.js' );
-
+    if ( cat(this.appDir + '/mobile-config.js') === '' ) {
+      echo( sample ).to( this.appDir + '/mobile-config.js' );
+    }
     return true;
   }
 
@@ -136,14 +135,22 @@ class _Mobile {
     for (let packageName in settings) {
       if (settings.hasOwnProperty(packageName)) {
         if ( this.translateFriendlyNames(packageName) === 'mobile-config' ) {
-          console.log(packageName, settings[packageName]);
           this.createMobileConfig();
         } else {
-          console.log("Checking", this.translateFriendlyNames(packageName));
+          console.log(`[Meteor Mobile]: ${settings[packageName] ? 'installing' : 'removing'}... `, this.translateFriendlyNames(packageName));
+          var package = exec(`meteor ${settings[packageName] ? 'add' : 'remove'} ${this.translateFriendlyNames(packageName)}`, { silent: true }).output;
+          console.log(package);
         }
       }
     }
 
+  }
+
+  watchSettings( cb ) {
+    this.fs.watchFile(this.appDir + '/.mobile.json', function (current, prev) {
+      console.log('[Meteor Mobile]: Config changed, updating...');
+      cb();
+    });
   }
 
   init() {
@@ -155,7 +162,11 @@ class _Mobile {
       // let appPackages = cat( this.appDir + '/.meteor/packages' );
       let appPackages = exec('meteor list', { silent: true }).output;
       let settingsFile = cat( this.appDir + '/.mobile.json' );
-      this.check(appPackages).using(settingsFile);
+
+      this.watchSettings(() => {
+        Mobile.check(appPackages).using(settingsFile)
+      });
+
     }
 
 
