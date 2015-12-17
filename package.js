@@ -1,6 +1,6 @@
 Package.describe({
   name: 'imagdy:mobile',
-  version: '0.0.1',
+  version: '1.0.0',
   summary: 'Everything you need to start a mobile app project on Meteor',
   git: 'https://github.com/iMagdy/meteor-mobile',
   documentation: 'README.md'
