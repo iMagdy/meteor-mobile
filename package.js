@@ -16,6 +16,5 @@ Package.onUse(function(api) {
   api.versionsFrom('1.2.1');
   api.use([ 'ecmascript', 'underscore', 'reactive-dict', 'reactive-var' ]);
   api.addFiles('meteor.mobile.server.js', 'server');
-  api.addFiles('meteor.mobile.client.js', 'client');
   api.export('Mobile');
 });
