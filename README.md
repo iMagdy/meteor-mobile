@@ -18,3 +18,7 @@ Everything you need to start a mobile app project on Meteor.
 - Reactive Var. [https://atmospherejs.com/meteor/reactive-var](https://atmospherejs.com/meteor/reactive-var)
 - Automatic creation of `mobile-config.js` [http://docs.meteor.com/#/full/mobileconfigjs](http://docs.meteor.com/#/full/mobileconfigjs)
 - Moment.js [https://atmospherejs.com/momentjs/moment](https://atmospherejs.com/momentjs/moment)
+
+### Usage:
+Install via `meteor add imagdy:mobile` then the package will generate a file called `.mobile.json` in your project root
+just edit it to suit your needs.
